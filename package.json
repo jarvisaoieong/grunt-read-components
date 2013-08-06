@@ -1,0 +1,44 @@
+{
+  "name": "grunt-read-components",
+  "description": "Read components",
+  "version": "0.1.0",
+  "homepage": "https://github.com/kinua/grunt-read-components",
+  "author": {
+    "name": "Jarvis.A.I",
+    "email": "kinua1230@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kinua/grunt-read-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kinua/grunt-read-components/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/kinua/grunt-read-components/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.coffee",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "dependencies": {
+    "read-components": "~0.5.1",
+    "underscore": "~1.5.1",
+    "mkdirp": "~0.3.5",
+    "async": "~0.2.9"
+  }
+}
