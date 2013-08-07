@@ -12,16 +12,15 @@ fs = require('fs');
 
 module.exports = function(grunt) {
   return grunt.registerMultiTask('read_components', 'reading components', function() {
-    var cssFolder, done, jsFolder, options, self;
+    var cssFolder, done, jsFolder, options;
     done = this.async();
     options = this.options();
-    self = this;
     if (options.concat) {
-      jsFolder = this.data.jsDist.replace(/\/[^\/]+$/, '');
-      cssFolder = this.data.cssDist.replace(/\/[^\/]+$/, '');
+      jsFolder = options.js.replace(/\/[^\/]+$/, '');
+      cssFolder = options.css.replace(/\/[^\/]+$/, '');
     } else {
-      jsFolder = this.data.jsDist;
-      cssFolder = this.data.cssDist;
+      jsFolder = options.js;
+      cssFolder = options.css;
     }
     return async.auto({
       js: function(fn) {
@@ -41,15 +40,15 @@ module.exports = function(grunt) {
             return -item.sortingLevel;
           });
           series = [];
-          fs.writeFileSync(self.data.jsDist, '');
-          fs.writeFileSync(self.data.cssDist, '');
+          fs.writeFileSync(options.js, '');
+          fs.writeFileSync(options.css, '');
           _.each(components, function(component) {
             return _.each(component.files, function(file) {
               if (file.match(/\.js$/)) {
-                fs.appendFileSync(self.data.jsDist, fs.readFileSync(file, 'utf8') + ";");
+                fs.appendFileSync(options.js, fs.readFileSync(file, 'utf8') + ";");
                 return fs.append;
               } else if (file.match(/\.css$/)) {
-                return fs.appendFileSync(self.data.cssDist, fs.readFileSync(file, 'utf8'));
+                return fs.appendFileSync(options.css, fs.readFileSync(file, 'utf8'));
               } else {
 
               }

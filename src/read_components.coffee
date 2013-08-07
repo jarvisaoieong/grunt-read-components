@@ -9,14 +9,13 @@ module.exports = (grunt) ->
   grunt.registerMultiTask 'read_components', 'reading components', ->
     done = @async()
     options = @options()
-    self = this
 
     if options.concat
-      jsFolder = this.data.jsDist.replace /\/[^\/]+$/, ''
-      cssFolder = this.data.cssDist.replace /\/[^\/]+$/, ''
+      jsFolder = options.js.replace /\/[^\/]+$/, ''
+      cssFolder = options.css.replace /\/[^\/]+$/, ''
     else
-      jsFolder = this.data.jsDist
-      cssFolder = this.data.cssDist
+      jsFolder = options.js
+      cssFolder = options.css
 
     async.auto
       js: (fn) ->
@@ -33,16 +32,16 @@ module.exports = (grunt) ->
             components = _.sortBy components, (item) -> -item.sortingLevel
             series = []
 
-            fs.writeFileSync self.data.jsDist, ''
-            fs.writeFileSync self.data.cssDist, ''
+            fs.writeFileSync options.js, ''
+            fs.writeFileSync options.css, ''
 
             _.each components, (component) ->
               _.each component.files, (file) ->
                 if file.match /\.js$/
-                  fs.appendFileSync self.data.jsDist, fs.readFileSync(file, 'utf8') + ";"
+                  fs.appendFileSync options.js, fs.readFileSync(file, 'utf8') + ";"
                   fs.append
                 else if file.match /\.css$/
-                  fs.appendFileSync self.data.cssDist, fs.readFileSync(file, 'utf8')
+                  fs.appendFileSync options.css, fs.readFileSync(file, 'utf8')
                 else
                   return
             done()
