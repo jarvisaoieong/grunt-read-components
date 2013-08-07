@@ -27,10 +27,12 @@ grunt.initConfig({
   read_components: {
     read: {
       options: {
-        concat: true
-      },
-      jsDist: 'your/js/path',
-      cssDist: 'your/css/path'
+        concat: true,
+        files: {
+          js: 'your/js/path',
+          css: 'your/css/path'
+        }
+      }
     }
   }
 })
@@ -42,7 +44,19 @@ grunt.initConfig({
 Type: `Boolean`
 Default value: `false`
 
-A string value that is used to do something with whatever.
+Concat bower components into one file or not.
+
+#### options.concat
+Type: `Boolean`
+Default value: `false`
+
+Concat bower components into one file or not.
+
+#### options.files
+Type: `Object`
+Default value: `{}`
+
+Which type of file move to destination. The key is file type and the value in the destination.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
