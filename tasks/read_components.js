@@ -1,72 +1,46 @@
-var async, fs, mkdirp, read, _;
+var read;
 
 read = require('read-components');
 
-_ = require('underscore');
-
-mkdirp = require('mkdirp');
-
-async = require('async');
-
-fs = require('fs');
-
 module.exports = function(grunt) {
   return grunt.registerMultiTask('read_components', 'reading components', function() {
-    var done, options;
+    var done, options, _;
     done = this.async();
     options = this.options({
       concat: false,
-      files: {}
+      regex: /.*/,
+      dest: '.',
+      seperator: ''
     });
-    _.each(options.files, function(target, type) {
-      var dir;
-      dir = options.concat ? target.replace(/\/[^\/]+$/, '') : target;
-      return mkdirp.sync(dir);
-    });
+    _ = grunt.util._;
     return read('.', 'bower', function(err, components) {
-      var parallel;
       if (options.concat) {
         components = _.sortBy(components, function(item) {
           return -item.sortingLevel;
         });
-        _.each(options.files, function(target, type) {
-          var regex;
-          regex = new RegExp("\." + type + "$");
-          fs.writeFileSync(target, '');
-          return _.each(components, function(component) {
-            return _.each(component.files, function(file) {
-              if (!regex.test(file)) {
-                return;
-              }
-              fs.appendFileSync(target, fs.readFileSync(file, 'utf8'));
-              if (type === 'js') {
-                return fs.appendFileSync(target, ';');
-              }
-            });
+        grunt.file.write(options.dest, '');
+        _.each(components, function(component) {
+          return _.each(component.files, function(file) {
+            if (!file.match(options.regex)) {
+              return;
+            }
+            return grunt.file.write(options.dest, grunt.file.read(options.dest) + options.seperator + grunt.file.read(file));
           });
         });
-        return done();
+        done();
       } else {
-        parallel = [];
-        _.each(options.files, function(target, type) {
-          var regex;
-          regex = new RegExp("\." + type + "$");
-          return _.each(components, function(component) {
-            return _.each(component.files, function(file) {
-              var readStream, writeStream;
-              if (!regex.test(file)) {
-                return;
-              }
-              readStream = fs.createReadStream(file);
-              writeStream = fs.createWriteStream("" + target + "/" + component.name + "." + type);
-              return parallel.push(function(fn) {
-                return readStream.pipe(writeStream).on('close', fn);
-              });
-            });
+        _.each(components, function(component) {
+          return _.each(component.files, function(file) {
+            var fileName;
+            if (!file.match(options.regex)) {
+              return;
+            }
+            fileName = _.last(file.split('/'));
+            return grunt.file.write("" + options.dest + "/" + fileName, grunt.file.read(file));
           });
         });
-        return async.parallel(parallel, done);
       }
+      return done();
     });
   });
 };

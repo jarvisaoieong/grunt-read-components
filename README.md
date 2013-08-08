@@ -1,6 +1,6 @@
 # grunt-read-components
 
-> Read components.
+> Read components (only support bower components now).
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -25,13 +25,12 @@ In your project's Gruntfile, add a section named `read_components` to the data o
 ```js
 grunt.initConfig({
   read_components: {
-    read: {
+    js: {
       options: {
         concat: true,
-        files: {
-          js: 'your/js/path',
-          css: 'your/css/path'
-        }
+        regex: /\.js$/,
+        dest: 'src/scripts/vendor.js',
+        seperator: ';'
       }
     }
   }
@@ -46,17 +45,23 @@ Default value: `false`
 
 Concat bower components into one file or not.
 
-#### options.concat
-Type: `Boolean`
-Default value: `false`
+#### options.regex
+Type: `RegExp`
+Default value: `/.*/`
 
-Concat bower components into one file or not.
+The pattern of file path for parsing.
 
-#### options.files
-Type: `Object`
-Default value: `{}`
+#### options.dest
+Type: `String`
+Default value: `'.'`
 
-Which type of file move to destination. The key is file type and the value in the destination.
+The destination of the file move to.
+
+#### options.seperator
+Type: `String`
+Default value: `''`
+
+When options.concat set to true, the seperator value used to concat the file content with.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
