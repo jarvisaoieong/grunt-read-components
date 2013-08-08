@@ -9,8 +9,13 @@ module.exports = (grunt) ->
       compile:
         options:
           bare: true
-        files:
-          'tasks/read_components.js': 'src/read_components.coffee'
+        files: [
+          expand: true
+          cwd: 'src'
+          src: '*.coffee'
+          dest: 'tasks'
+          ext: '.js'
+        ]
 
     watch:
       scripts:
