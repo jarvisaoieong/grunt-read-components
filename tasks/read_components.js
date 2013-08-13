@@ -27,7 +27,6 @@ module.exports = function(grunt) {
             return grunt.file.write(options.dest, grunt.file.read(options.dest) + options.seperator + grunt.file.read(file));
           });
         });
-        done();
       } else {
         _.each(components, function(component) {
           return _.each(component.files, function(file) {

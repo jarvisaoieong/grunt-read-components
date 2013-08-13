@@ -4,7 +4,6 @@ module.exports = (grunt) ->
 
   grunt.registerMultiTask 'read_components', 'reading components', ->
 
-    done = @async()
     options = @options
       concat: false
       regex: /.*/
@@ -12,6 +11,7 @@ module.exports = (grunt) ->
       seperator: ''
 
     _ = grunt.util._
+    done = @async()
 
     read '.', 'bower', (err, components) ->
 
@@ -22,7 +22,6 @@ module.exports = (grunt) ->
           _.each component.files, (file) ->
             return unless file.match options.regex
             grunt.file.write options.dest, (grunt.file.read(options.dest) + options.seperator + grunt.file.read(file))
-        done()
 
       else
         _.each components, (component) ->
