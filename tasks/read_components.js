@@ -5,7 +5,6 @@ read = require('read-components');
 module.exports = function(grunt) {
   return grunt.registerMultiTask('read_components', 'reading components', function() {
     var done, options, _;
-    done = this.async();
     options = this.options({
       concat: false,
       regex: /.*/,
@@ -13,6 +12,7 @@ module.exports = function(grunt) {
       seperator: ''
     });
     _ = grunt.util._;
+    done = this.async();
     return read('.', 'bower', function(err, components) {
       if (options.concat) {
         components = _.sortBy(components, function(item) {
